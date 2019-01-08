@@ -146,6 +146,28 @@ const actors = [{
   }]
 }];
 
+//Step 1 : Calculate booking price
+function getBarById(id)
+{
+	for(var bar of bars)
+	{
+		if(bar.id == id)
+		{
+			return bar;
+		}
+	}
+}
+function calculateBookingPrice()
+{
+	for(var event of events)
+	{
+		var eventBar = getBarById(event.barId);
+		event.price = event.time * eventBar.pricePerHour + event.persons * eventBar.pricePerPerson;
+	}
+}
+
+calculateBookingPrice();
+
 console.log(bars);
 console.log(events);
 console.log(actors);
