@@ -205,6 +205,35 @@ function calculateDeductible()
 	}
 }
 
+//Step5
+function getEventById(id)
+{
+	for(var event of events)
+	{
+		if(event.id == id)
+		{
+			return event;
+		}
+	}
+}
+//Find the right actor in the paymentlist by var 'who'
+function getWho(actor, who)
+{
+	return actor.payment.find(payment => payment.who === who)
+}
+function computeActors()
+{
+	for(var actor of actors)
+	{
+		var event = getEventById(actor.eventId);
+		getWho(actor, "booker").amount = event.price; // Compute booker
+		getWho(actor, "bar").amount = event.price - event.commission.insurance - event.commission.treasury - event.commission.privateaser;
+		getWho(actor, "insurance").amount = event.commission.insurance;
+		getWho(actor, "treasury").amount = event.commission.treasury;
+		getWho(actor, "privateaser").amount = event.commission.privateaser;
+	}
+}
+
 //Step1 & step2
 calculateBookingPrice();
 
@@ -213,6 +242,9 @@ calculateCommission();
 
 //Step4
 calculateDeductible();
+
+//Step5
+computeActors();
 
 console.log(bars);
 console.log(events);
