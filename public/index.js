@@ -174,7 +174,7 @@ function calculateBookingPrice()
 		var eventBar = getBarById(event.barId);
 		var price = event.time * eventBar.pricePerHour; // Adding price per hour
 		price += event.persons * eventBar.pricePerPerson; // Adding price per personalba
-		price *= (100-getReduction(event.persons))/100;
+		price *= (100-getReduction(event.persons))/100;// If a lot of persons : apply reduction
 		event.price = price;
 	}
 }
@@ -191,11 +191,28 @@ function calculateCommission()
 	}
 }
 
+//Step4
+function calculateDeductible()
+{
+	for(var event of events)
+	{
+		if(event.options.deductibleReduction)
+		{
+			var deductibleCharge = 1 * event.persons;
+			event.price += deductibleCharge;
+			event.commission.privateaser += deductibleCharge;
+		}
+	}
+}
+
 //Step1 & step2
 calculateBookingPrice();
 
 //step3
 calculateCommission();
+
+//Step4
+calculateDeductible();
 
 console.log(bars);
 console.log(events);
