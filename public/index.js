@@ -164,6 +164,7 @@ function getReduction(persons)
 	if(persons > 60) {return 50;}
 	else if (persons > 20) {return 30;}
 	else if (persons > 10) {return 10;}
+	else return 0;
 }
 
 function calculateBookingPrice()
@@ -178,7 +179,23 @@ function calculateBookingPrice()
 	}
 }
 
+//Step3 : Calculate insurance, treasury, privateaser
+function calculateCommission()
+{
+	for(var event of events)
+	{
+		var commission = 0.3 * event.price;
+		event.commission.insurance = 0.5 * commission;
+		event.commission.treasury = 1 * event.persons;
+		event.commission.privateaser = commission - event.commission.insurance - event.commission.treasury;
+	}
+}
+
+//Step1 & step2
 calculateBookingPrice();
+
+//step3
+calculateCommission();
 
 console.log(bars);
 console.log(events);
