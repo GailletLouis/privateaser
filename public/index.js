@@ -157,12 +157,24 @@ function getBarById(id)
 		}
 	}
 }
+
+//Step2 : Recalculate the price (reduceded when more people)
+function getReduction(persons)
+{
+	if(persons > 60) {return 50;}
+	else if (persons > 20) {return 30;}
+	else if (persons > 10) {return 10;}
+}
+
 function calculateBookingPrice()
 {
 	for(var event of events)
 	{
 		var eventBar = getBarById(event.barId);
-		event.price = event.time * eventBar.pricePerHour + event.persons * eventBar.pricePerPerson;
+		var price = event.time * eventBar.pricePerHour; // Adding price per hour
+		price += event.persons * eventBar.pricePerPerson; // Adding price per personalba
+		price *= (100-getReduction(event.persons))/100;
+		event.price = price;
 	}
 }
 
